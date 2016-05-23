@@ -333,8 +333,11 @@ public class GameServer extends Controller implements GameObserver {
 		 * Si se cumple con el numero de jugadores necesarios se inicia la partida
 		 */
 			if(this.numOfConnectedPlayers == this.numPlayers){
-				this.log( "players ready. Starting game...");
-				game.start(pieces);
+				if(this.gameOver){
+					this.gameOver = false;
+					game.restart();
+				}
+				else game.start(pieces);
 			}
 		
 		
@@ -371,10 +374,10 @@ public class GameServer extends Controller implements GameObserver {
 						cmd.execute(GameServer.this);	//ejecutar el comando
 					} catch (ClassNotFoundException | IOException e) {
 						if(!stopped && !gameOver){
-							stopTheGame();							
+							GameServer.this.stopTheGame();							
 						}
-						//e.printStackTrace();
-					} 
+						log("El thread de la lista de clientes generado da una excepcion: " + e.getMessage());
+					}					
 				}
 				
 			}
@@ -388,25 +391,26 @@ public class GameServer extends Controller implements GameObserver {
 	 * como si ha sido al finalizarla
 	 */
 	private void stopTheGame(){
+		this.gameOver = true;
 		if(this.game.getState().equals(State.InPlay)){
 			this.game.stop();
-		}
-		this.gameOver = true;
-		//this.stop();
+		}		
 		for (Connection c : this.clients)
 			try {
 				c.stop();
-				this.log("the connection with client in port (" + c.getPort() +")have been closed");
+				this.log("the connection with client in port (" + c.getPort() +") have been closed");
 				this.numOfConnectedPlayers--;
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (IOException e) {				
+				this.log("Al parar el juego se ha generado una excepcion: " + e.getMessage());
 			}
+		this.clients.clear();
+		this.infoPlayersArea.setText(null);
 	}
 	
 	/**
 	 * Metodo que se encarga de cerrar el servidor; primero cierra la partida y luego el servidor
 	 */
-	private void stopTheServer(){
+	/*private void stopTheServer(){
 		this.stopped = true;
 		this.stopTheGame();
 		try {
@@ -414,7 +418,7 @@ public class GameServer extends Controller implements GameObserver {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 
 //------------------------------------------OBSERVABLE EVENTS--------------------------------------//
@@ -426,10 +430,12 @@ public class GameServer extends Controller implements GameObserver {
 	public void fowardNotification (Response r){
 		try {
 			for (Connection c : clients) {
+				port = c.getPort();
 				c.sendObject(r);
 			}
 			} catch (IOException e) {
-				
+				this.log("Generada una excepcion en la comunicacion del cliente con el puerto(" + port + ") :" + e.getMessage());
+				stopTheGame();
 			}
 	}
 	
