@@ -75,6 +75,12 @@ public class GameServer extends Controller implements GameObserver {
 	 * Campo de informe de los jugadores conectados al servidor 
 	 */
 	private TextArea infoPlayersArea;
+	
+	/** 
+	* <p>boleano de control de primera ronda en el inicio de servidor, para el inicio/reset de partidas/p>  
+	*/ 
+	private boolean firstRound = true; 
+
 
 
 //---------------------------------------------ATRIBUTOS VOLATILE------------------------------------//
@@ -195,7 +201,7 @@ public class GameServer extends Controller implements GameObserver {
 				
 				if (n == 0) {
 					try {
-						stop();
+						stopTheServer();
 					} catch (GameError _e) {
 					}
 					window.setVisible(false);
@@ -333,11 +339,14 @@ public class GameServer extends Controller implements GameObserver {
 		 * Si se cumple con el numero de jugadores necesarios se inicia la partida
 		 */
 			if(this.numOfConnectedPlayers == this.numPlayers){
-				if(this.gameOver){
-					this.gameOver = false;
-					game.restart();
+				if(this.firstRound){
+					this.firstRound = false;
+					game.start(pieces);					
 				}
-				else game.start(pieces);
+				else{
+					game.restart();
+					this.log(this.numPlayers + "Players to go");
+				} 
 			}
 		
 		
@@ -410,15 +419,18 @@ public class GameServer extends Controller implements GameObserver {
 	/**
 	 * Metodo que se encarga de cerrar el servidor; primero cierra la partida y luego el servidor
 	 */
-	/*private void stopTheServer(){
-		this.stopped = true;
+	private void stopTheServer(){
+		this.stopped = false;
+		if(this.game.getState().equals(State.InPlay)){
+			this.game.stop();
+		}
 		this.stopTheGame();
 		try {
 			this.server.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}*/
+	}
 
 
 //------------------------------------------OBSERVABLE EVENTS--------------------------------------//

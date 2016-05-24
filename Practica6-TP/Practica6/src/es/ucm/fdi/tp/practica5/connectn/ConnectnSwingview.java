@@ -6,7 +6,6 @@ import es.ucm.fdi.tp.basecode.bgame.model.GameObserver;
 import es.ucm.fdi.tp.basecode.bgame.model.Observable;
 import es.ucm.fdi.tp.basecode.bgame.model.Piece;
 import es.ucm.fdi.tp.practica5.view.RectBoardSwingView;
-import es.ucm.fdi.tp.practica5.view.sound.MakeSound;
 
 public class ConnectnSwingview extends RectBoardSwingView {
 
@@ -35,8 +34,7 @@ public class ConnectnSwingview extends RectBoardSwingView {
 	 * @param aiPlayer parametro de jugador IA
 	 */
 	public ConnectnSwingview(Observable<GameObserver> game, Controller c, Piece localPiece, Player randPlayer, Player aiPlayer) {
-		super(game, c, localPiece, randPlayer, aiPlayer);
-		MakeSound.RunPlaySound("sound/conectnopen.wav"); // Hilo musical al comienzo de cada juego
+		super(game, c, localPiece, randPlayer, aiPlayer);		
 		this.player = new ConnectnSwingPlayer();
 		this.secondClick = false;
 	}

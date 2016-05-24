@@ -6,7 +6,6 @@ import es.ucm.fdi.tp.basecode.bgame.model.GameObserver;
 import es.ucm.fdi.tp.basecode.bgame.model.Observable;
 import es.ucm.fdi.tp.basecode.bgame.model.Piece;
 import es.ucm.fdi.tp.practica5.view.RectBoardSwingView;
-import es.ucm.fdi.tp.practica5.view.sound.MakeSound;
 
 public class AtaxxSwingView extends RectBoardSwingView {
 	/**
@@ -66,8 +65,7 @@ public class AtaxxSwingView extends RectBoardSwingView {
 	 * @param aiPlayer parametro de jugador IA
 	 */
 	public AtaxxSwingView(Observable<GameObserver> game, Controller c, Piece localPiece, Player randPlayer, Player aiPlayer) {
-		super(game, c, localPiece, randPlayer, aiPlayer);
-		MakeSound.RunPlaySound("sound/ataxxopen.wav"); // Hilo musical al comienzo de cada juego
+		super(game, c, localPiece, randPlayer, aiPlayer);		
 		this.player = new AtaxxSwingPlayer();
 		this.secondClick = false;
 	}

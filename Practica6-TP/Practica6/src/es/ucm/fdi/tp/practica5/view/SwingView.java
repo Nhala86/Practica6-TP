@@ -564,7 +564,7 @@ public abstract class SwingView extends JFrame implements GameObserver{
 			random.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					executeControllerMove(randPlayer);
+					executeControllerMove(aiPlayer);
 				}
 			});			
 		this.automaticMovePanel.add(random);

@@ -6,7 +6,6 @@ import es.ucm.fdi.tp.basecode.bgame.model.GameObserver;
 import es.ucm.fdi.tp.basecode.bgame.model.Observable;
 import es.ucm.fdi.tp.basecode.bgame.model.Piece;
 import es.ucm.fdi.tp.practica5.view.RectBoardSwingView;
-import es.ucm.fdi.tp.practica5.view.sound.MakeSound;
 
 public class AdvancedTTTSwingView extends RectBoardSwingView {
 
@@ -53,8 +52,7 @@ public class AdvancedTTTSwingView extends RectBoardSwingView {
 	private boolean secondClick;
 
 	public AdvancedTTTSwingView(Observable<GameObserver> game, Controller c, Piece localPiece, Player randPlayer, Player aiPlayer) {
-		super(game, c, localPiece, randPlayer, aiPlayer);
-		MakeSound.RunPlaySound("sound/atttopen.wav"); // Hilo musical al comienzo de cada juego
+		super(game, c, localPiece, randPlayer, aiPlayer);		
 		this.player = new AdvancedTTTSwingPlayer();
 		this.secondClick = false;
 	}

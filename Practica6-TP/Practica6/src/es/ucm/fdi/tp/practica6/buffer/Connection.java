@@ -34,9 +34,9 @@ public class Connection {
 	 * @throws IOException excepcion que en caso de fallo debe ser tratada
 	 */
 	public void sendObject(Object r) throws IOException{
-		out.writeObject(r);
-		out.flush();
 		out.reset();
+		out.writeObject(r);
+		out.flush();		
 	}
 	
 	/**
@@ -57,8 +57,7 @@ public class Connection {
 	 * @throws ClassNotFoundException excepcion que en caso de fallo debe ser tratada
 	 */
 	public Object getObject() throws IOException, ClassNotFoundException{
-		return in.readObject();
-		
+		return in.readObject();		
 	}
 	
 	/**	 

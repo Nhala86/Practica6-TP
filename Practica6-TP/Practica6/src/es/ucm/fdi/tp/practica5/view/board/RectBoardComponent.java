@@ -78,29 +78,23 @@ public abstract class RectBoardComponent extends JComponent implements GameObser
 		addMouseListener(new MouseListener() {
 
 			@Override
-			public void mouseReleased(MouseEvent e) {
-				System.out.println("Mouse Released: " + "(" + e.getX() + "," + e.getY() + ")");
+			public void mouseReleased(MouseEvent e) {				
 			}
 
 			@Override
-			public void mousePressed(MouseEvent e) {
-				System.out.println("Mouse Pressed: " + "(" + e.getX() + "," + e.getY() + ")");
+			public void mousePressed(MouseEvent e) {				
 			}
 
 			@Override
-			public void mouseExited(MouseEvent e) {
-				System.out.println("Mouse Exited Component: " + "(" + e.getX() + "," + e.getY() + ")");
+			public void mouseExited(MouseEvent e) {				
 			}
 
 			@Override
-			public void mouseEntered(MouseEvent e) {
-				System.out.println("Mouse Entered Component: " + "(" + e.getX() + "," + e.getY() + ")");
+			public void mouseEntered(MouseEvent e) {				
 			}
 
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println(
-						"Mouse Button " + e.getButton() + " Clicked at " + "(" + e.getX() + "," + e.getY() + ")");
+			public void mouseClicked(MouseEvent e) {				
 				int row = (e.getX()/_CELL_WIDTH);
 				int col = (e.getY()/_CELL_HEIGHT);
 				RectBoardComponent.this.mouseClicked(row, col, e.getClickCount(), e.getButton());
