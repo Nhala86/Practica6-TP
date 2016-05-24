@@ -41,7 +41,6 @@ import es.ucm.fdi.tp.basecode.bgame.model.GameObserver;
 import es.ucm.fdi.tp.basecode.bgame.model.Piece;
 import es.ucm.fdi.tp.practica5.view.board.RectBoardComponent;
 import es.ucm.fdi.tp.practica5.view.color.ColorChooser;
-import es.ucm.fdi.tp.practica5.view.sound.MakeSound;
 import es.ucm.fdi.tp.basecode.bgame.model.Observable;
 
 public abstract class SwingView extends JFrame implements GameObserver{
