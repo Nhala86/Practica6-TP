@@ -54,8 +54,9 @@ public class AdvancedTTTSwingView extends RectBoardSwingView {
 	public AdvancedTTTSwingView(Observable<GameObserver> game, Controller c, Piece localPiece, Player randPlayer, Player aiPlayer) {
 		super(game, c, localPiece, randPlayer, aiPlayer);		
 		this.player = new AdvancedTTTSwingPlayer();
-		this.secondClick = false;
-	}
+		this.secondClick = false;			
+	}	
+	
 
 	@Override
 	protected void handelMouseClick(int row, int col, int clickcounter, int mouseButton) {

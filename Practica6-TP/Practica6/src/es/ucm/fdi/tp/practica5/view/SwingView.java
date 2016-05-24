@@ -842,12 +842,10 @@ public abstract class SwingView extends JFrame implements GameObserver{
 		this.addMessageToTextArea(" GAME OVER *");
 		
 		switch(state){
-		case Won:
-			MakeSound.RunPlaySound("sound/winner.wav");
+		case Won:			
 			this.addMessageToTextArea(" " + winner + " is the winner!!");
 			break;
-		case Draw:
-			MakeSound.RunPlaySound("sound/draw.wav");
+		case Draw:			
 			this.addMessageToTextArea("Look at this, we have a draw!!");
 			break;
 		case Stopped:
