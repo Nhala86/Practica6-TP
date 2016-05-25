@@ -2,6 +2,7 @@ package es.ucm.fdi.tp.practica5.attt;
 
 import es.ucm.fdi.tp.basecode.bgame.control.Controller;
 import es.ucm.fdi.tp.basecode.bgame.control.Player;
+import es.ucm.fdi.tp.basecode.bgame.model.Board;
 import es.ucm.fdi.tp.basecode.bgame.model.GameObserver;
 import es.ucm.fdi.tp.basecode.bgame.model.Observable;
 import es.ucm.fdi.tp.basecode.bgame.model.Piece;
@@ -47,6 +48,8 @@ public class AdvancedTTTSwingView extends RectBoardSwingView {
 	 */
 	private int destinyCol;
 	
+	boolean allPieces;
+	
 	private AdvancedTTTSwingPlayer player;
 	
 	private boolean secondClick;
@@ -63,7 +66,13 @@ public class AdvancedTTTSwingView extends RectBoardSwingView {
 		if(!secondClick){
 			this.originRow = row;
 			this.originCol = col;
-			this.secondClick = true;	
+			this.secondClick = true;
+			if(!allPieces){
+				this.secondClick = false;
+				this.player.setMoveValue(this.originRow, this.originCol, this.originRow, this.originCol);
+				if(mouseButton == 1)
+					this.caseMakeManualMove(this.player);
+			}
 		}
 		
 		else{
@@ -74,6 +83,16 @@ public class AdvancedTTTSwingView extends RectBoardSwingView {
 			this.player.setMoveValue(this.originRow, this.originCol, this.destinyRow, this.destinyCol);
 			if(mouseButton == 1)
 			this.caseMakeManualMove(this.player);
+		}
+	}
+	
+	@Override
+	public void onMoveStart(Board board, Piece turn) {
+		if(board.getPieceCount(turn) > 0){
+			this.allPieces = false;
+		}
+		else{
+			this.allPieces = true;
 		}
 	}
 
