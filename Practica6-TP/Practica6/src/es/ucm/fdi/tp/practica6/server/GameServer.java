@@ -149,7 +149,8 @@ public class GameServer extends Controller implements GameObserver {
 		try {
 			startServer();
 		} catch (IOException e) {
-			this.log("Error starting a client connection: " + e.getMessage());
+			System.err.println("Error starting a client connection: " + e.getMessage()); // Para que no se abra el server dos veces
+			System.exit(1);
 		}
 	}
 
@@ -347,9 +348,7 @@ public class GameServer extends Controller implements GameObserver {
 					game.restart();
 					this.log(this.numPlayers + "Players to go");
 				} 
-			}
-		
-		
+			}		
 		/*
 		 * Invocar al startClientListener para iniciar una hebra para 
 		 * recibir comandos del cliente
@@ -389,8 +388,7 @@ public class GameServer extends Controller implements GameObserver {
 					}					
 				}
 				
-			}
-			
+			}			
 		});
 		t.start();	
 	}

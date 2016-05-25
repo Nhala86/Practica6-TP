@@ -629,7 +629,7 @@ public abstract class SwingView extends JFrame implements GameObserver{
 				public void actionPerformed(ActionEvent e) {
 					int n = JOptionPane.showOptionDialog(new JFrame(), "Are you sure you want to restart the game?", "Restart",
 							JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-
+				
 					if (n == 0) {
 						try {
 							controller.restart();
@@ -881,6 +881,7 @@ public abstract class SwingView extends JFrame implements GameObserver{
 	 * @param turn parametro de la pieza de ese turno
 	 */
 	private void handleChangeTurn(Board board, Piece turn) {
+		this.board = board; // al heredar el recboard del observable no funciona el getPieceCount()
 		this.infoTable.refresh();
 		this.turn = turn;
 		this.addMessageToTextArea("Turn for " + (turn.equals(localPiece) ? "You!" : turn.toString()));

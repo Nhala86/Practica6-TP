@@ -43,6 +43,198 @@ import es.ucm.fdi.tp.practica5.ttt.TicTacToeFactoryExt;
  * sobre esta libreria en {https://commons.apache.org/proper/commons-cli/} .
  */
 public class Main {
+	
+	/**
+	 * Number of server port provided with the option -sp (
+	 * {@link #DEFAULT_SERVER_PORT} if not provided).
+	 * 
+	 * <p>
+	 * Numero del puerto de servidor proporcionado con la opcion -sp, o
+	 * {@@link #DEFAULT_SERVER_PORT} si no se incluye la opcion -sp.
+	 */
+	private static Integer serverPort;
+
+	/**
+	 * Default listener server port.
+	 * <p>
+	 * Puerto de escucha por defecto para el servidor.
+	 */
+	final private static String DEFAULT_SERVER_PORT = "2000";
+
+	
+	/**
+	 * The game mode aplication selected for the progam correspond to what is
+	 * provided in the -a option (or using the default value
+	 * {@link #DEFAULT_APPLICATION_MODE}).
+	 * 
+	 * <p>
+	 * El modo de aplicacion seleccionado para el frgama se corresponde con el
+	 * valor que se proporciona en la opcion -a (o el valor por defecto
+	 * {@link #DEFAULT_APPLICATION_MODE}).
+	 * </p>
+	 */
+	private static applicationModeInfo applicationMode;
+
+	/**
+	 * Default aplication mode launch.
+	 * <p>
+	 * Modo de lanzamiento de aplicaion por defecto.
+	 */
+	final private static applicationModeInfo DEFAULT_APPLICATION_MODE = applicationModeInfo.NORMAL;
+	
+	/**
+	 * Number of server port provided with the option -sh (
+	 * {@link #DEFAULT_SERVER_PORT} if not provided).
+	 * 
+	 * <p>
+	 * Numero del puerto de servidor proporcionado con la opcion -sp, o
+	 * {@@link #DEFAULT_SERVER_PORT} si no se incluye la opcion -sp.
+	 */
+	private static String serverHost;
+
+	/**
+	 * Default server host name.
+	 * <p>
+	 * Puerto de escucha por defecto para el servidor.
+	 */
+	final private static String DEFAULT_SERVER_HOST = "localhost";
+	
+// -------------------------------------------GAME FACTORY-----------------------------------------------//
+
+		/**
+		 * This field includes a game factory that is constructed after parsing the
+		 * command-line arguments. Depending on the game selected with the -g option
+		 * (by default {@link #DEFAULT_GAME}).
+		 * 
+		 * <p>
+		 * Este atributo incluye una factoria de juego que se crea despues de
+		 * extraer los argumentos de la linea de ordenes. Depende del juego
+		 * seleccionado con la opcion -g (por defecto, {@link #DEFAULT_GAME}).
+		 */
+		private static GameFactory gameFactory;
+		
+// -------------------------------------------PIECES-----------------------------------------------//
+
+		/**
+		 * List of pieces provided with the -p option, or taken from
+		 * {@link GameFactory#createDefaultPieces()} if this option was not
+		 * provided.
+		 * 
+		 * <p>
+		 * Lista de fichas proporcionadas con la opcion -p, u obtenidas de
+		 * {@link GameFactory#createDefaultPieces()} si no hay opcion -p.
+		 */
+		private static List<Piece> pieces;
+		
+//------------------------------------------------------------------------------------------------------------//
+		
+		/**
+		 * Default player mode to use.
+		 * <p>
+		 * Modo de juego por defecto.
+		 */
+		final private static PlayerMode DEFAULT_PLAYERMODE = PlayerMode.MANUAL;
+
+		/**
+		 * A list of players. The i-th player corresponds to the i-th piece in the
+		 * list {@link #pieces}. They correspond to what is provided in the -p
+		 * option (or using the default value {@link #DEFAULT_PLAYERMODE}).
+		 * 
+		 * <p>
+		 * Lista de jugadores. El jugador i-esimo corresponde con la ficha i-esima
+		 * de la lista {@link #pieces}. Esta lista contiene lo que se proporciona en
+		 * la opcion -p (o el valor por defecto {@link #DEFAULT_PLAYERMODE}).
+		 */
+		private static List<PlayerMode> playerModes;
+		
+		/**
+		 * The view to use. Depending on the selected view using the -v option or
+		 * the default value {@link #DEFAULT_VIEW} if this option was not provided.
+		 * 
+		 * <p>
+		 * Vista a utilizar. Dependiendo de la vista seleccionada con la opcion -v o
+		 * el valor por defecto {@link #DEFAULT_VIEW} si el argumento -v no se
+		 * proporciona.
+		 */
+
+		private static ViewInfo view;
+
+		/**
+		 * default view to use.
+		 * <p>
+		 * Vista por defecto.
+		 */
+		final private static ViewInfo DEFAULT_VIEW = ViewInfo.CONSOLE;
+		
+		/**
+		 * {@code true} if the option -m was provided, to use a separate view for
+		 * each piece, and {@code false} otherwise.
+		 * 
+		 * <p>
+		 * {@code true} si se incluye la opcion -m, para utilizar una vista separada
+		 * por cada ficha, o {@code false} en caso contrario.
+		 */
+		private static boolean multiviews;
+		
+		/**
+		 * Number of rows provided with the option -d ({@code null} if not
+		 * provided).
+		 * 
+		 * <p>
+		 * Numero de filas proporcionadas con la opcion -d, o {@code null} si no se
+		 * incluye la opcion -d.
+		 */
+		private static Integer dimRows;
+
+		/**
+		 * Number of columns provided with the option -d ({@code null} if not
+		 * provided).
+		 * 
+		 * <p>
+		 * Numero de columnas proporcionadas con la opcion -d, o {@code null} si no
+		 * se incluye la opcion -d.
+		 * 
+		 */
+		private static Integer dimCols;
+		
+		/**
+		 * The algorithm to be used by the automatic player. Not used so far, it is
+		 * always {@code null}.
+		 * 
+		 * <p>
+		 * Algoritmo a utilizar por el jugador automatico. Actualmente no se
+		 * utiliza, por lo que siempre es {@code null}.
+		 */
+		private static AIAlgorithm aiPlayerAlg;
+
+		/**
+		 * Default algorithm for automatic player.
+		 */
+		final private static AlgorithmForAIPlayer DEFAULT_AIALG = AlgorithmForAIPlayer.NONE;
+		
+		/**
+		 * Atributo de la IA
+		 */
+		private static Integer minmaxTreeDepth;
+		
+		/**
+		 * Number of obstaculos provided with the option -o ({@code null} if not
+		 * provided).
+		 * 
+		 * <p>
+		 * Numero de obstaculos proporcionados con la opcion -o, o {@code null} si
+		 * no se incluye la opcion -o.
+		 * 
+		 */
+		private static Integer obstacles;
+		
+		/**
+		 * Default game to play.
+		 * <p>
+		 * Juego por defecto.
+		 */
+		final private static GameInfo DEFAULT_GAME = GameInfo.CONNECTN;
+
 
 // -------------------------------------------APLICATION MODE-----------------------------------------------//
 
@@ -76,27 +268,7 @@ public class Main {
 			return id;
 		}
 	}
-
-	/**
-	 * The game mode aplication selected for the progam correspond to what is
-	 * provided in the -a option (or using the default value
-	 * {@link #DEFAULT_APPLICATION_MODE}).
-	 * 
-	 * <p>
-	 * El modo de aplicacion seleccionado para el frgama se corresponde con el
-	 * valor que se proporciona en la opcion -a (o el valor por defecto
-	 * {@link #DEFAULT_APPLICATION_MODE}).
-	 * </p>
-	 */
-	private static applicationModeInfo applicationMode;
-
-	/**
-	 * Default aplication mode launch.
-	 * <p>
-	 * Modo de lanzamiento de aplicaion por defecto.
-	 */
-	final private static applicationModeInfo DEFAULT_APPLICATION_MODE = applicationModeInfo.NORMAL;
-
+	
 	/**
 	 * Builds the aplication mode(-am or --application-mode) CLI option.
 	 * 
@@ -141,24 +313,7 @@ public class Main {
 	}
 
 // -------------------------------------------SERVER PORT-----------------------------------------------//
-
-	/**
-	 * Number of server port provided with the option -sp (
-	 * {@link #DEFAULT_SERVER_PORT} if not provided).
-	 * 
-	 * <p>
-	 * Numero del puerto de servidor proporcionado con la opcion -sp, o
-	 * {@@link #DEFAULT_SERVER_PORT} si no se incluye la opcion -sp.
-	 */
-	private static Integer serverPort;
-
-	/**
-	 * Default listener server port.
-	 * <p>
-	 * Puerto de escucha por defecto para el servidor.
-	 */
-	final private static String DEFAULT_SERVER_PORT = "2000";
-
+	
 	/**
 	 * Builds the server port (-sp or --server-port) CLI option.
 	 * 
@@ -192,23 +347,7 @@ public class Main {
 	}
 	
 // -------------------------------------------SERVER HOST-----------------------------------------------//
-	/**
-	 * Number of server port provided with the option -sh (
-	 * {@link #DEFAULT_SERVER_PORT} if not provided).
-	 * 
-	 * <p>
-	 * Numero del puerto de servidor proporcionado con la opcion -sp, o
-	 * {@@link #DEFAULT_SERVER_PORT} si no se incluye la opcion -sp.
-	 */
-	private static String serverHost;
-
-	/**
-	 * Default server host name.
-	 * <p>
-	 * Puerto de escucha por defecto para el servidor.
-	 */
-	final private static String DEFAULT_SERVER_HOST = "localhost";
-	
+		
 	/**
 	 * Builds the server host (-sh or --server-host) CLI option.
 	 * 
@@ -240,33 +379,6 @@ public class Main {
 			}
 		}
 	}
-	
-// -------------------------------------------GAME FACTORY-----------------------------------------------//
-
-	/**
-	 * This field includes a game factory that is constructed after parsing the
-	 * command-line arguments. Depending on the game selected with the -g option
-	 * (by default {@link #DEFAULT_GAME}).
-	 * 
-	 * <p>
-	 * Este atributo incluye una factoria de juego que se crea despues de
-	 * extraer los argumentos de la linea de ordenes. Depende del juego
-	 * seleccionado con la opcion -g (por defecto, {@link #DEFAULT_GAME}).
-	 */
-	private static GameFactory gameFactory;
-
-// -------------------------------------------PIECES-----------------------------------------------//
-
-	/**
-	 * List of pieces provided with the -p option, or taken from
-	 * {@link GameFactory#createDefaultPieces()} if this option was not
-	 * provided.
-	 * 
-	 * <p>
-	 * Lista de fichas proporcionadas con la opcion -p, u obtenidas de
-	 * {@link GameFactory#createDefaultPieces()} si no hay opcion -p.
-	 */
-	private static List<Piece> pieces;
 
 // -------------------------------------------PLAYERS MODES-----------------------------------------------//
 	/**
@@ -297,26 +409,7 @@ public class Main {
 		public String toString() {
 			return id;
 		}
-	}
-
-	/**
-	 * Default player mode to use.
-	 * <p>
-	 * Modo de juego por defecto.
-	 */
-	final private static PlayerMode DEFAULT_PLAYERMODE = PlayerMode.MANUAL;
-
-	/**
-	 * A list of players. The i-th player corresponds to the i-th piece in the
-	 * list {@link #pieces}. They correspond to what is provided in the -p
-	 * option (or using the default value {@link #DEFAULT_PLAYERMODE}).
-	 * 
-	 * <p>
-	 * Lista de jugadores. El jugador i-esimo corresponde con la ficha i-esima
-	 * de la lista {@link #pieces}. Esta lista contiene lo que se proporciona en
-	 * la opcion -p (o el valor por defecto {@link #DEFAULT_PLAYERMODE}).
-	 */
-	private static List<PlayerMode> playerModes;
+	}	
 
 	/**
 	 * Builds the players (-p or --player) CLI option.
@@ -433,26 +526,7 @@ public class Main {
 			return id;
 		}
 	}
-
-	/**
-	 * The view to use. Depending on the selected view using the -v option or
-	 * the default value {@link #DEFAULT_VIEW} if this option was not provided.
-	 * 
-	 * <p>
-	 * Vista a utilizar. Dependiendo de la vista seleccionada con la opcion -v o
-	 * el valor por defecto {@link #DEFAULT_VIEW} si el argumento -v no se
-	 * proporciona.
-	 */
-
-	private static ViewInfo view;
-
-	/**
-	 * default view to use.
-	 * <p>
-	 * Vista por defecto.
-	 */
-	final private static ViewInfo DEFAULT_VIEW = ViewInfo.CONSOLE;
-
+	
 	/**
 	 * Builds the view (-v or --view) CLI option.
 	 * 
@@ -503,16 +577,6 @@ public class Main {
 // -------------------------------------------MULTIVIEWS-----------------------------------------------//
 	
 	/**
-	 * {@code true} if the option -m was provided, to use a separate view for
-	 * each piece, and {@code false} otherwise.
-	 * 
-	 * <p>
-	 * {@code true} si se incluye la opcion -m, para utilizar una vista separada
-	 * por cada ficha, o {@code false} en caso contrario.
-	 */
-	private static boolean multiviews;
-
-	/**
 	 * Builds the multiview (-m or --multiviews) CLI option.
 	 * 
 	 * <p>
@@ -540,27 +604,7 @@ public class Main {
 	}
 
 // -------------------------------------------BOARD DIMENSION-----------------------------------------------//
-	/**
-	 * Number of rows provided with the option -d ({@code null} if not
-	 * provided).
-	 * 
-	 * <p>
-	 * Numero de filas proporcionadas con la opcion -d, o {@code null} si no se
-	 * incluye la opcion -d.
-	 */
-	private static Integer dimRows;
-
-	/**
-	 * Number of columns provided with the option -d ({@code null} if not
-	 * provided).
-	 * 
-	 * <p>
-	 * Numero de columnas proporcionadas con la opcion -d, o {@code null} si no
-	 * se incluye la opcion -d.
-	 * 
-	 */
-	private static Integer dimCols;
-
+	
 	/**
 	 * Builds the dimension (-d or --dim) CLI option.
 	 * 
@@ -642,22 +686,7 @@ public class Main {
 		public String toString() {
 			return desc;
 		}
-	}
-
-	/**
-	 * The algorithm to be used by the automatic player. Not used so far, it is
-	 * always {@code null}.
-	 * 
-	 * <p>
-	 * Algoritmo a utilizar por el jugador automatico. Actualmente no se
-	 * utiliza, por lo que siempre es {@code null}.
-	 */
-	private static AIAlgorithm aiPlayerAlg;
-
-	/**
-	 * Default algorithm for automatic player.
-	 */
-	final private static AlgorithmForAIPlayer DEFAULT_AIALG = AlgorithmForAIPlayer.NONE;
+	}	
 
 	/**
 	 * The depth of the maximum depth in the MinMax Algorithm.
@@ -719,8 +748,6 @@ public class Main {
 
 // -------------------------------------------MAXMIN TREE DEPHT-----------------------------------------------//
 
-	private static Integer minmaxTreeDepth;
-
 	/**
 	 * Builds the MinMax tree depth (-md or --minmax-depth) CLI option.
 	 * 
@@ -754,18 +781,7 @@ public class Main {
 	}
 
 // -------------------------------------------OBSTACLES-----------------------------------------------//
-
-	/**
-	 * Number of obstaculos provided with the option -o ({@code null} if not
-	 * provided).
-	 * 
-	 * <p>
-	 * Numero de obstaculos proporcionados con la opcion -o, o {@code null} si
-	 * no se incluye la opcion -o.
-	 * 
-	 */
-	private static Integer obstacles;
-
+	
 	/**
 	 * Builds the obstacles (-o or --obstacles) CLI option.
 	 * 
@@ -878,14 +894,7 @@ public class Main {
 			return id;
 		}
 
-	}
-
-	/**
-	 * Default game to play.
-	 * <p>
-	 * Juego por defecto.
-	 */
-	final private static GameInfo DEFAULT_GAME = GameInfo.CONNECTN;
+	}	
 
 	/**
 	 * Builds the game (-g or --game) CLI option.
