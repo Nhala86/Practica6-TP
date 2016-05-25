@@ -871,7 +871,7 @@ public class Main {
 	 */
 	enum GameInfo {
 		CONNECTN("cn", "ConnectN"), TicTacToe("ttt", "Tic-Tac-Toe"), AdvancedTicTacToe("attt",
-				"Advanced Tic-Tac-Toe"), Ataxx("at", "Ataxx");
+				"Advanced Tic-Tac-Toe"), Ataxx("atax", "Ataxx");
 
 		private String id;
 		private String desc;

@@ -621,7 +621,7 @@ public abstract class SwingView extends JFrame implements GameObserver{
 			});
 		
 		this.exitPanel.add(quit);		
-		
+		if(this.localPiece.equals(null)){
 		JButton restartButton = new JButton("Restart");
 		
 			restartButton.addActionListener(new ActionListener() {
@@ -642,9 +642,9 @@ public abstract class SwingView extends JFrame implements GameObserver{
 						repaint();
 					}
 				}
-			});
-			
-		this.exitPanel.add(restartButton);		
+			});		
+			this.exitPanel.add(restartButton);
+		}
 		this.ControllerPanel.add(this.exitPanel);		
 	}
 	
